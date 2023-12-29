@@ -32,6 +32,13 @@ func (b Box) getSurfaceArea() int {
 	return 2*b.length*b.width + 2*b.width*b.height + 2*b.height*b.length + int(minside)
 }
 
+func (b Box) getRibbonLength() int {
+	smallSideOne := math.Min(float64(b.length), float64(b.width))
+	maxSideOne := math.Max(float64(b.length), float64(b.width))
+	smallSideTwo := math.Min(maxSideOne, float64(b.height))
+	return int(smallSideOne*2) + int(smallSideTwo*2) + (b.length * b.width * b.height)
+}
+
 func main() {
 	p("Start AOC2015DAY2.go")
 	//open input.txt file for
@@ -43,6 +50,7 @@ func main() {
 	scanner := bufio.NewScanner(file)
 
 	totalfeet := 0
+	totalRibbon := 0
 
 	for {
 		if !scanner.Scan() {
@@ -59,9 +67,11 @@ func main() {
 		myBox := Box{length: boxlength, width: boxwidth, height: boxheight}
 		p("Box surface area is: " + strconv.Itoa(myBox.getSurfaceArea()) + " square feet")
 		totalfeet = totalfeet + myBox.getSurfaceArea()
+		totalRibbon = totalRibbon + myBox.getRibbonLength()
 
 	}
 	p("Box size is: " + strconv.Itoa(totalfeet))
+	p("Total ribbon length is: " + strconv.Itoa(totalRibbon))
 	p("End AOC2015DAY2.go")
 
 }
